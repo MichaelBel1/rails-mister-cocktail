@@ -6,6 +6,8 @@ class CocktailsController < ApplicationController
   end
 
   def show
+    @dose = Dose.new
+    @review = Review.new
   end
 
   def new
@@ -36,6 +38,7 @@ class CocktailsController < ApplicationController
     redirect_to cocktails_path
   end
 
+
   private
 
   def set_cocktail
@@ -44,6 +47,6 @@ class CocktailsController < ApplicationController
 
   def cocktail_params
     # Filtering/Whitelisting the params that come in from the form
-    params.require(:cocktail).permit(:name)
+    params.require(:cocktail).permit(:name, :photo)
   end
 end

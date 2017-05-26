@@ -1,17 +1,52 @@
+  <div class="banner" style="background-image: linear-gradient(-225deg, rgba(0,101,168,0.6) 0%, rgba(0,36,61,0.6) 50%), url('<%= cl_image_path @cocktail.photo.path, height: 300, width: 400, crop: :fill %>')">
+    <div class="banner-content text-align">
+      <div class="info">
+        <h1><%= @cocktail.name %></h1>
+        <% @cocktail.reviews.each do |r| %>
+        <div class="stars">
+          <% r.rating.times do |rating| %>
+              <i class="fa fa-star" aria-hidden="true"></i>
+          <% end  %>
+        </div>
+        <% end %>
+        <ul>
+         <% @cocktail.doses.each do |dose| %>
+          <li><%= dose.ingredient.name %>: <%= dose.description %></li>
+          <% end %>
+          <br>
+        </ul>
+      </div>
+      <div class="actions">
+        <%= link_to 'Back to Home', cocktails_path, class: "btn btn-primary" %>
+        <%= link_to 'Edit this cocktail', edit_cocktail_path(@cocktail), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h1><%= @cocktail.name %></h1>
-      <ul>
-        <% @cocktail.doses.each do |dose| %>
-          <li><%= dose.ingredient.name %>: <%= dose.description %></li>
-          <% end  %>
-          <br>
-      </ul>
-
-      <%= link_to "Add a new dose", new_cocktail_dose_path(@cocktail) %> ||
-      <%= link_to 'Back to Home', cocktails_path %> ||
-      <%= link_to 'Edit this cocktail', edit_cocktail_path(@cocktail) %>
+      <h1>Add a new dose:</h1>
+      <%= simple_form_for [@cocktail, @dose] do |f| %>
+        <%= f.association :ingredient %>
+        <%= f.input :description %>
+        <%= f.submit "Add a dose", class: "btn btn-primary" %>
+      <% end %>
     </div>
   </div>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Add a new review:</h1>
+      <%= simple_form_for [@cocktail, @review] do |f| %>
+        <%= f.input :rating, collection: 1..5 %>
+        <%= f.input :description %>
+        <%= f.submit "Add a rating", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+
+
